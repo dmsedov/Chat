@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title Chat
+    script(src="/socket.io/socket.io.js")
+    script const socket = io()
+  body
+    #content
+      .constrols
+      | Nickname:
+      input#nickname(type='text')
+      input#field(type='text')
+      button#send Send
