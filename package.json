@@ -1,0 +1,32 @@
+{
+  "name": "Chat",
+  "version": "1.0.0",
+  "description": "Chat based on express.js",
+  "scripts": {
+    "babel-node": "babel-node",
+    "test": "jest",
+    "nodemon": "nodemon"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "method-override": "^2.3.9",
+    "named-routes": "^2.0.6",
+    "nodemon": "^1.11.0",
+    "pug": "^2.0.0-rc.3"
+  }
+}
