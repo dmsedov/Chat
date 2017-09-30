@@ -2,12 +2,16 @@ doctype html
 html
   head
     title Chat
-    script(src="/socket.io/socket.io.js")
-    script const socket = io()
+    meta(charset='utf-8')
+    link(rel='stylesheet' type='text/css' href='assets/styles.css')
+    script(src='/socket.io/socket.io.js')
+    script(src='assets/chat-client.js')
   body
-    #content
-      .constrols
-      | Nickname:
-      input#nickname(type='text')
-      input#field(type='text')
-      button#send Send
+    .container
+      #content
+      #controls
+        #nickname-field
+          label(for='nickname') Nickname:
+          input#nickname(type='text')
+        textarea#field(placeholder='Type message')
+        button#send Send
