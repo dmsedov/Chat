@@ -4,38 +4,49 @@ body {
 	color: white;
 }
 .container {
-	margin:0 auto;
-	width:400px;
-	border-radius:15px;
-	background-color:#3069AD;
+	margin: 0 auto;
+	width: 400px;
+	border-radius: 15px;
+	background-color: #3069AD;
 }
 #content {
-	padding:10px;
-	width:400px;
+	padding: 10px;
+	width: 400px;
 	height: 400px;
-	border-top-left-radius:15px;
-	border-top-right-radius:15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
 	box-sizing: border-box;
-	background-color:rgba(27,149,164,0.8);
+	background-color: rgba(27,149,164,0.8);
+}
+#content .greeting-message {
+	margin: 0 auto;
+	width: 50%;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	border-radius: 5px;
+	color: black;
+	font-size: 18px;
+	background-color: #B9E4EF;
 }
 #content .message {
 	display: inline-block;
 	margin: 10px;
 	padding: 5px;
-	min-width:100px;
-	max-width:90%;
-	min-height:20px;
-	box-sizing:border-box;
+	min-width: 100px;
+	max-width: 90%;
+	min-height: 20px;
+	box-sizing: border-box;
 	border: 2px solid rgba(228,218,218,1.00);
-	border-radius:5px;
+	border-radius: 5px;
 	word-wrap: break-word;
-	background-color:#FFFFFF;
+	background-color: #FFFFFF;
 	color: black;
 }
 #controls {
-	margin-top:5px;
-	padding:10px;
-	width:400px;
+	margin-top: 5px;
+	padding: 10px;
+	width: 400px;
 	box-sizing: border-box;
 }
 #constrols input {
@@ -45,29 +56,39 @@ body {
 	font-size: 18px;
 }
 #nickname-field {
-	margin:0 auto;
-	width:80%;
+	margin: 0 auto;
+	width: 80%;
+}
+#nickname-field .alert-message {
+	line-height: 20px;
+	box-sizing: border-box;
+	border: 1px solid #AA0313;
+	border-radius: 5px;
+	color: #232323;
+	font-weight: bold;
+	text-align: center;
+	background-color: #DD7196;
 }
 #controls #nickname {
-	width:150px;
-	height:20px;
-	border-radius:5px;
+	width: 150px;
+	height: 20px;
+	border-radius: 5px;
 }
 #controls #field {
-	display:block;
+	display: block;
 	margin: 0 auto;
 	margin-top: 10px;
-	width:80%;
-	height:60px;
-	border-radius:5px;
+	width: 80%;
+	height: 60px;
+	border-radius: 5px;
 }
 #controls #send {
 	display: block;
-	margin:10px auto;
-	width:30%;
-	height:30px;
+	margin: 10px auto;
+	width: 30%;
+	height: 30px;
 	border-radius: 5px;
-	cursor:pointer;
+	cursor: pointer;
 	font-size: 14px;
-	font-weight:bold;
+	font-weight: bold;
 }
