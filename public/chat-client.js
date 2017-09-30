@@ -9,15 +9,28 @@ window.onload = () => {
 
   socket.on('greeting message', (data) => {
     const greetingMessage = document.createElement('p');
-    console.log('hi');
+    greetingMessage.setAttribute('class', 'greeting-message');
     greetingMessage.innerHTML = data.message;
     messagesArea.appendChild(greetingMessage);
   });
+
+  nickname.onfocus = () => {
+    const elements = document.getElementsByClassName('alert-message');
+    if (elements.length !== 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+  };
   sendButton.onclick = () => {
+    const elements = document.getElementsByClassName('alert-message');
+    console.log(elements, 'elements');
     if (nickname.value === '') {
-      const alertMessage = document.createElement('p');
-      alertMessage.innerHTML = 'Nickname field must be filled';
-      divNicknameField.appendChild(alertMessage);
+      const message = 'Nickname field must be filled!'
+      if (elements.length === 0) {
+        const alertMessage = document.createElement('p');
+        alertMessage.innerHTML = message;
+        alertMessage.setAttribute('class', 'alert-message');
+        divNicknameField.appendChild(alertMessage);
+      }
     } else {
       const text = textarea.value;
       socket.emit('message', { message: text });
