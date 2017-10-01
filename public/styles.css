@@ -3,11 +3,82 @@ body {
 	font-size: 16px;
 	color: white;
 }
-.container {
-	margin: 0 auto;
+#auth-form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	padding: 10px;
+	width: 400px;
+	height: 400px;
+	border-radius: 15px;
+	box-sizing: border-box;
+	background-color: #3069AD;;
+}
+#auth-form p {
+	padding: 10px;
+	border-radius: 5px;
+  background-color: yellow;
+  color: black;
+}
+#auth-form span {
+	font-weight: bold;
+	font-style:italic;
+}
+#auth-form .alert-message {
+	line-height: 20px;
+	box-sizing: border-box;
+	border: 1px solid #AA0313;
+	border-radius: 5px;
+	color: #232323;
+	font-weight: bold;
+	text-align: center;
+	background-color: #DD7196;
+}
+.center {
 	width: 400px;
 	border-radius: 15px;
-	background-color: #3069AD;
+}
+.center span {
+	font-size: 20px;
+}
+.center input {
+	display: inline-block;
+  margin: 20px 10px auto 15px;
+  width: 60%;
+  height: 30px;
+	border-radius: 5px;
+}
+#nickname {
+	margin-left: 9px;
+}
+.center button {
+	display: inline-block;
+	margin-top: 20px;
+	margin-bottom: 10px;
+  width: 100px;
+  height: 40px;
+	border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: lightslategray;
+}
+
+#sign-in {
+	margin-left: 60px;
+	margin-right: 60px;
+}
+#sign-up {
+	margin-right: 60px;
+}
+.center button:hover {
+    color: royalblue;
 }
 #content {
 	padding: 10px;
@@ -55,26 +126,7 @@ body {
 #controls label {
 	font-size: 18px;
 }
-#nickname-field {
-	margin: 0 auto;
-	width: 80%;
-}
-#nickname-field .alert-message {
-	line-height: 20px;
-	box-sizing: border-box;
-	border: 1px solid #AA0313;
-	border-radius: 5px;
-	color: #232323;
-	font-weight: bold;
-	text-align: center;
-	background-color: #DD7196;
-}
-#controls #nickname {
-	width: 150px;
-	height: 20px;
-	border-radius: 5px;
-}
-#controls #field {
+#message-field {
 	display: block;
 	margin: 0 auto;
 	margin-top: 10px;
@@ -82,7 +134,7 @@ body {
 	height: 60px;
 	border-radius: 5px;
 }
-#controls #send {
+#send-message {
 	display: block;
 	margin: 10px auto;
 	width: 30%;

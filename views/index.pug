@@ -4,14 +4,26 @@ html
     title Chat
     meta(charset='utf-8')
     link(rel='stylesheet' type='text/css' href='assets/styles.css')
-    script(src='/socket.io/socket.io.js')
-    script(src='assets/chat-client.js')
+    script(src='assets/authentication.js')
   body
-    .container
+    if (currentUser.isGuest())
+      form#auth-form(method='post')
+        h2 Chat
+        p Please type your nickname and password to visit chat.
+          br
+          span Note: nickname and password must contain at least 6 characters. Nickname requires only letters.
+        .center
+          label(for='nickname')
+          span Nickname:
+          input#nickname(type='text')
+          span Password:
+          input#password(type='password')
+          button#sign-in Sign in
+          button#sign-up Sign up
+    else
       #content
       #controls
-        #nickname-field
-          label(for='nickname') Nickname:
-          input#nickname(type='text')
-        textarea#field(placeholder='Type message')
-        button#send Send
+        textarea#message-field(placeholder='Type message')
+        button#send-message Send
+      script(src='/socket.io/socket.io.js')
+      script(src='assets/chat-client.js')
