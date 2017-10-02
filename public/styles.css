@@ -16,7 +16,7 @@ body {
 	margin: auto;
 	padding: 10px;
 	width: 400px;
-	height: 400px;
+	height: 460px;
 	border-radius: 15px;
 	box-sizing: border-box;
 	background-color: #3069AD;;
@@ -44,6 +44,13 @@ body {
 .center {
 	width: 400px;
 	border-radius: 15px;
+}
+.notification {
+	margin: auto;
+	margin-top: 15px;
+	max-width: 80%;
+	line-height: 20px;
+  text-align: center;
 }
 .center span {
 	font-size: 20px;
