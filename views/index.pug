@@ -4,19 +4,20 @@ html
     title Chat
     meta(charset='utf-8')
     link(rel='stylesheet' type='text/css' href='assets/styles.css')
-    script(src='assets/authentication.js')
+    script(defer src='assets/authentication.js')
   body
     if (currentUser.isGuest())
       form#auth-form(method='post')
         h2 Chat
         p Please type your nickname and password to visit chat.
           br
-          span Note: nickname and password must contain at least 6 characters. Nickname requires only letters.
+          span Note: both nickname and password must contain at least 6 characters(letters and digits) and no more than 12. Nickname starts only with a letter.
         .center
           label(for='nickname')
-          span Nickname:
+            span Nickname:
           input#nickname(type='text')
-          span Password:
+          label(for='password')
+            span Password:
           input#password(type='password')
           button#sign-in Sign in
           button#sign-up Sign up
