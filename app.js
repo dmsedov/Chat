@@ -26,11 +26,12 @@ export default (port) => {
   }));
 
   const pathToStatic = path.join(__dirname, 'public');
-  const users = [new User('Admin', encrypt('blabla'))];
+  const users = [new User('Admin1', encrypt('blabla'))];
   app.use('/assets', Express.static(pathToStatic));
 
   app.use((req, res, next) => {
-    if (req.session && req.session.nickname) {
+    console.log(req.session.nickname, 'session obj');
+    if (req.session.nickname) {
       const identUser = users.find(user => user.nickname === req.session.nickname);
       app.locals.currentUser = identUser;
     } else {
@@ -41,6 +42,38 @@ export default (port) => {
   app.get('/', 'root', (req, res) => {
     res.render('index');
   });
+
+  app.post('/users', 'users', (req, res) => {
+    const { nickname, password } = req.body;
+    const error = {};
+    const foundUser = users.find(user => user.nickname === nickname);
+    if (!foundUser) {
+      const newUser = new User(nickname, encrypt(password));
+      req.session.nickname = nickname;
+      users.push(newUser);
+      res.redirect('/');
+    } else {
+      error.nickname = 'must be unique';
+      res.status(422);
+      res.render('index', { error });
+    }
+  });
+
+  app.post('/session', 'session', (req, res) => {
+    const { nickname, password } = req.body;
+    const error = {};
+    const foundUser = users.find(user => user.nickname === nickname
+      && user.password === encrypt(password));
+    if (foundUser) {
+      req.session.nickname = nickname;
+      res.redirect('/');
+    } else {
+      res.status = 422;
+      error.message = 'Invalid nickname or password';
+      res.render('index', { error });
+    }
+  });
+
   const io = socketIO.listen(app.listen(port));
   io.on('connection', (socket) => {
     console.log('connected successfully');
