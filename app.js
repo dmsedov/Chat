@@ -81,10 +81,10 @@ export default (port) => {
   app.use((err, req, res, next) => {
     if (err.status === 404) {
       res.status(404);
-      res.render('errorsPages/404');
+      res.render('errorPages/404');
     } else {
       res.status(500);
-      res.render('errorsPages/500');
+      res.render('errorPages/500');
     }
   });
 
