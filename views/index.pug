@@ -26,6 +26,8 @@ html
           button#sign-in(formmethod='post' formaction=`${url('users')}`) Sign in
           button#sign-up(formmethod='post' formaction=`${url('session')}`) Sign up
     else
+      .user=currentUser.nickname
+      button#sign-out(formmethod='delete' formaction=`${url('session')}?_method=DELETE`) Sign out
       #content
       #controls
         textarea#message-field(placeholder='Type message')
