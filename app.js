@@ -74,6 +74,11 @@ export default (port) => {
     }
   });
 
+  app.delete('/session', 'session', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+  });
+
   app.use((req, res, next) => {
     next(new NotFoundError());
   });
