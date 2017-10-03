@@ -57,7 +57,7 @@ body {
 }
 .center input {
 	display: inline-block;
-  margin: 20px 10px auto 15px;
+  margin: 0px 10px auto 15px;
   width: 60%;
   height: 30px;
 	border-radius: 5px;
@@ -65,9 +65,16 @@ body {
 #nickname {
 	margin-left: 9px;
 }
+#password {
+	margin-top: 10px;
+}
+.error-message {
+	margin-bottom:0px;
+	text-align: center;
+}
 .center button {
 	display: inline-block;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 10px;
   width: 100px;
   height: 40px;

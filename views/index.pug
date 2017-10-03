@@ -6,7 +6,7 @@ html
     link(rel='stylesheet' type='text/css' href='assets/css/styles.css')
     script(defer src='assets/js/authentication.js')
   body
-  -const par = error ? error.message : '';
+  -const par = error ? error : {};
     if (currentUser.isGuest())
       form#auth-form(method='post')
         h2 Chat
@@ -17,10 +17,12 @@ html
         .center
           label(for='nickname')
             span Nickname:
-          input#nickname(type='text' name='nickname' value = par)
+          input#nickname(type='text' name='nickname' value = par.nickname)
           label(for='password')
             span Password:
           input#password(type='password' name='password')
+          if (par.message)
+            p.error-message=error.message
           button#sign-in(formmethod='post' formaction=`${url('users')}`) Sign in
           button#sign-up(formmethod='post' formaction=`${url('session')}`) Sign up
     else
