@@ -4,7 +4,8 @@ html
     title Chat
     meta(charset='utf-8')
     link(rel='stylesheet' type='text/css' href='assets/css/styles.css')
-    script(defer src='assets/js/authentication.js')
+    if (currentUser.isGuest())
+      script(defer src='assets/js/authentication.js')
   body
   -const par = error ? error : {};
     if (currentUser.isGuest())
@@ -27,10 +28,11 @@ html
           button#sign-up(formmethod='post' formaction=`${url('session')}`) Sign up
     else
       .user=currentUser.nickname
-      button#sign-out(formmethod='delete' formaction=`${url('session')}?_method=DELETE`) Sign out
+      form#form-sign-out
+        button#sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
       #content
       #controls
         textarea#message-field(placeholder='Type message')
         button#send-message Send
       script(src='/socket.io/socket.io.js')
-      script(src='assets/chat-client.js')
+      script(src='assets/js/chat-client.js')
