@@ -10,13 +10,16 @@ const isValidData = (str, regExp) => {
   return result;
 };
 
-const regExpOfNickname = /^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
+const regExpOfNickname = /^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$/;
 const regExpOfPassword = /^[a-zA-Z0-9]{6,12}$/;
 
 nickname.onfocus = () => {
   const el = document.getElementsByClassName('notification')[0];
   if (el) {
     divCenter.removeChild(el);
+  }
+  if (nickname.value === 'must be unique') {
+    nickname.value = '';
   }
 };
 
