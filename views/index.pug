@@ -19,8 +19,8 @@ html
           label(for='password')
             span Password:
           input#password(type='password')
-          button#sign-in Sign in
-          button#sign-up Sign up
+          button#sign-in(formmethod='post' formaction='/session') Sign in
+          button#sign-up(formmethod='post' formaction='/chat') Sign up
     else
       #content
       #controls
