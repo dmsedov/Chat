@@ -9,6 +9,7 @@ import session from 'express-session';
 import encrypt from './src/encrypt';
 import User from './entities/User';
 import Guest from './entities/Guest';
+import NotFoundError from './entities/NotFoundPage';
 
 export default (port) => {
   const app = Express();
@@ -30,7 +31,6 @@ export default (port) => {
   app.use('/assets', Express.static(pathToStatic));
 
   app.use((req, res, next) => {
-    console.log(req.session.nickname, 'session obj');
     if (req.session.nickname) {
       const identUser = users.find(user => user.nickname === req.session.nickname);
       app.locals.currentUser = identUser;
@@ -71,6 +71,20 @@ export default (port) => {
       res.status = 422;
       error.message = 'Invalid nickname or password';
       res.render('index', { error });
+    }
+  });
+
+  app.use((req, res, next) => {
+    next(new NotFoundError());
+  });
+
+  app.use((err, req, res, next) => {
+    if (err.status === 404) {
+      res.status(404);
+      res.render('errorsPages/404');
+    } else {
+      res.status(500);
+      res.render('errorsPages/500');
     }
   });
 
