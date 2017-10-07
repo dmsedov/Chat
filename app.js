@@ -97,6 +97,12 @@ export default (port) => {
   io.on('connection', (socket) => {
     console.log('connected successfully');
     socket.emit('greeting message', { message: 'Welcome to chat!' });
+    socket.on('start typing', (msg) => {
+      socket.broadcast.emit('typing message', msg);
+    });
+    socket.on('stop typing', () => {
+      socket.broadcast.emit('stop typing');
+    });
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });

@@ -14,7 +14,6 @@ const regExpOfNickname = /^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$/;
 const regExpOfPassword = /^[a-zA-Z0-9]{6,12}$/;
 
 authForm.onkeypress = (event) => {
-  console.log(event);
   if (event.keyCode === 13) {
     event.preventDefault();
   }
@@ -52,7 +51,6 @@ authForm.onsubmit = () => {
   const nick = nickname.value;
   const key = password.value;
   const cond = isValidData(nick, regExpOfNickname) && isValidData(key, regExpOfPassword);
-  console.log(cond);
   if (!cond) {
     if (!pNotification) {
       const note = document.createElement('p');
