@@ -6,4 +6,8 @@ export default class User {
   isGuest() {
     return false;
   }
+  addSocketId(id) {
+    this.socketId = id;
+    return id;
+  }
 }
