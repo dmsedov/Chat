@@ -28,14 +28,20 @@ export default (port) => {
 
   const pathToStatic = path.join(__dirname, 'public');
   const users = [new User('Admin1', encrypt('blabla'))];
-  app.use('/assets', Express.static(pathToStatic));
+  const onlineUsers = [];
 
+  app.use('/assets', Express.static(pathToStatic));
   app.use((req, res, next) => {
     if (req.session.nickname) {
       const identUser = users.find(user => user.nickname === req.session.nickname);
       app.locals.currentUser = identUser;
+      if (!onlineUsers.includes(identUser)) {
+        onlineUsers.push(identUser);
+        app.locals.users = onlineUsers;
+      }
     } else {
       app.locals.currentUser = new Guest();
+      app.locals.users = onlineUsers;
     }
     next();
   });
@@ -96,9 +102,13 @@ export default (port) => {
   const io = socketIO.listen(app.listen(port));
   io.on('connection', (socket) => {
     console.log('connected successfully');
+    console.log(app.locals.users, 'online users 1 before close');
+    const id = app.locals.currentUser.addSocketId(socket.id);
+    const currentOnlineUser = app.locals.users.find(user => user.socketId === id);
     socket.emit('greeting message', { message: 'Welcome to chat!' });
-    socket.on('start typing', (msg) => {
-      socket.broadcast.emit('typing message', msg);
+    socket.on('start typing', (data) => {
+      const report = currentOnlineUser.nickname + data.message;
+      socket.broadcast.emit('typing message', report);
     });
     socket.on('stop typing', () => {
       socket.broadcast.emit('stop typing');
