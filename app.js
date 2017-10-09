@@ -35,13 +35,11 @@ export default (port) => {
     if (req.session.nickname) {
       const identUser = users.find(user => user.nickname === req.session.nickname);
       app.locals.currentUser = identUser;
-      if (!onlineUsers.includes(identUser)) {
-        onlineUsers.push(identUser);
-        app.locals.users = onlineUsers;
-      }
+      onlineUsers.push(identUser);
+      app.locals.foreignUsers = onlineUsers.filter(user => user.nickname !== req.session.nickname);
+      app.locals.onlineUsers = onlineUsers;
     } else {
       app.locals.currentUser = new Guest();
-      app.locals.users = onlineUsers;
     }
     next();
   });
@@ -89,23 +87,25 @@ export default (port) => {
     next(new NotFoundError());
   });
 
-  app.use((err, req, res, next) => {
-    if (err.status === 404) {
-      res.status(404);
-      res.render('errorPages/404');
-    } else {
-      res.status(500);
-      res.render('errorPages/500');
-    }
-  });
+  // app.use((err, req, res, next) => {
+  //   if (err.status === 404) {
+  //     res.status(404);
+  //     res.render('errorPages/404');
+  //   } else {
+  //     res.status(500);
+  //     res.render('errorPages/500');
+  //   }
+  // });
 
   const io = socketIO.listen(app.listen(port));
   io.on('connection', (socket) => {
     console.log('connected successfully');
-    console.log(app.locals.users, 'online users 1 before close');
-    const id = app.locals.currentUser.addSocketId(socket.id);
-    const currentOnlineUser = app.locals.users.find(user => user.socketId === id);
+    app.locals.currentUser.addSocketId(socket.id);
+    const currentOnlineUser = app.locals.currentUser;
+    // app.locals.onlineUsers.find(user => user.socketId === id);
     socket.emit('greeting message', { message: 'Welcome to chat!' });
+    socket.broadcast.emit('user connected', currentOnlineUser);
+    console.log(currentOnlineUser, 'current user');
     socket.on('start typing', (data) => {
       const report = currentOnlineUser.nickname + data.message;
       socket.broadcast.emit('typing message', report);
@@ -113,6 +113,7 @@ export default (port) => {
     socket.on('stop typing', () => {
       socket.broadcast.emit('stop typing');
     });
+
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });

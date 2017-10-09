@@ -31,6 +31,11 @@ html
       form#form-sign-out
         button#sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
       #content
+      #info-status
+        ul#online-users
+         if (foreignUsers.length >= 1)
+          each user in foreignUsers
+            li=user.nickname
       #controls
         textarea#message-field(placeholder='Type message')
         button#send-message Send
