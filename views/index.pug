@@ -27,17 +27,21 @@ html
           button#sign-in(formmethod='post' formaction=`${url('users')}`) Sign in
           button#sign-up(formmethod='post' formaction=`${url('session')}`) Sign up
     else
-      .user=currentUser.nickname
-      form#form-sign-out
-        button#sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
-      #content
-      #info-status
-        ul#online-users
-         if (foreignUsers.length >= 1)
-          each user in foreignUsers
-            li=user.nickname
-      #controls
-        textarea#message-field(placeholder='Type message')
-        button#send-message Send
-      script(src='/socket.io/socket.io.js')
-      script(src='assets/js/chat-client.js')
+      #main
+        #log-out
+          .user=currentUser.nickname
+          form#form-sign-out
+            button#btn-sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
+        #content
+        #info-status
+          h3 Online users
+          ul#online-users
+            if (foreignUsers.length >= 1)
+              each user in foreignUsers
+                li=user.nickname
+        #controls
+          #info-of-activity
+          textarea#message-field(placeholder='Type message')
+          button#send-message Send
+        script(src='/socket.io/socket.io.js')
+        script(src='assets/js/chat-client.js')
