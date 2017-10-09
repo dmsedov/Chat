@@ -87,31 +87,30 @@ export default (port) => {
     next(new NotFoundError());
   });
 
-  // app.use((err, req, res, next) => {
-  //   if (err.status === 404) {
-  //     res.status(404);
-  //     res.render('errorPages/404');
-  //   } else {
-  //     res.status(500);
-  //     res.render('errorPages/500');
-  //   }
-  // });
+  app.use((err, req, res, next) => {
+    if (err.status === 404) {
+      res.status(404);
+      res.render('errorPages/404');
+    } else {
+      res.status(500);
+      res.render('errorPages/500');
+    }
+  });
 
   const io = socketIO.listen(app.listen(port));
   io.on('connection', (socket) => {
     console.log('connected successfully');
-    app.locals.currentUser.addSocketId(socket.id);
-    const currentOnlineUser = app.locals.currentUser;
-    // app.locals.onlineUsers.find(user => user.socketId === id);
+    const id = app.locals.currentUser.addSocketId(socket.id);
+    const currentOnlineUser = app.locals.onlineUsers.find(user => user.socketId === id);
     socket.emit('greeting message', { message: 'Welcome to chat!' });
     socket.broadcast.emit('user connected', currentOnlineUser);
     console.log(currentOnlineUser, 'current user');
     socket.on('start typing', (data) => {
       const report = currentOnlineUser.nickname + data.message;
-      socket.broadcast.emit('typing message', report);
+      socket.broadcast.emit('typing message', { report, currentOnlineUser });
     });
     socket.on('stop typing', () => {
-      socket.broadcast.emit('stop typing');
+      socket.broadcast.emit('stop typing', currentOnlineUser);
     });
 
     socket.on('disconnect', () => {
