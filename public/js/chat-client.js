@@ -3,6 +3,8 @@ window.onload = () => {
   const textarea = document.getElementById('message-field');
   const sendButton = document.getElementById('send-message');
   const messagesArea = document.getElementById('content');
+  const listOfUsers = document.getElementById('online-users');
+  const blockOfTyping = document.getElementById('info-of-activity');
 
 
   socket.on('greeting message', (data) => {
@@ -20,23 +22,36 @@ window.onload = () => {
     socket.emit('stop typing');
   };
 
-  socket.on('typing message', (msg) => {
-    if (!document.getElementById('typing-message')) {
+  socket.on('typing message', (data) => {
+    const id = data.currentOnlineUser.socketId;
+    if (!document.getElementById(`${id}`)) {
       const typingMsg = document.createElement('p');
-      typingMsg.setAttribute('id', 'typing-message');
-      typingMsg.innerHTML = msg;
-      messagesArea.appendChild(typingMsg);
+      typingMsg.setAttribute('id', `${id}`);
+      typingMsg.innerHTML = data.report;
+      blockOfTyping.appendChild(typingMsg);
     }
   });
-  socket.on('stop typing', () => {
-    const typingMsg = document.getElementById('typing-message');
+  socket.on('stop typing', (user) => {
+    const msg = document.getElementById(`${user.socketId}`);
     setTimeout(() => {
-      if (typingMsg) {
-        typingMsg.remove();
+      if (msg) {
+        msg.remove();
       }
     }, 800);
   });
+
+  socket.on('user connected', (user) => {
+    const report = document.createElement('p');
+    report.setAttribute('class', 'new-User');
+    report.innerHTML = `${user.nickname} connected`;
+    messagesArea.appendChild(report);
+    const listItem = document.createElement('li');
+    listItem.innerHTML = user.nickname;
+    listOfUsers.appendChild(listItem);
+    setTimeout(() => report.remove(), 5000);
+  });
 };
+
   // sendButton.onclick = () => {
   //
   //   } else {
