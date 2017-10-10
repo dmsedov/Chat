@@ -33,11 +33,11 @@ window.onload = () => {
   });
   socket.on('stop typing', (user) => {
     const msg = document.getElementById(`${user.socketId}`);
-    setTimeout(() => {
-      if (msg) {
-        msg.remove();
-      }
-    }, 800);
+    // setTimeout(() => {
+    //   if (msg) {
+    //     msg.remove();
+    //   }
+    // }, 800);
   });
 
   socket.on('user connected', (user) => {
@@ -50,12 +50,24 @@ window.onload = () => {
     listOfUsers.appendChild(listItem);
     setTimeout(() => report.remove(), 5000);
   });
-};
 
-  // sendButton.onclick = () => {
-  //
-  //   } else {
-  //     const text = textarea.value;
-  //     socket.emit('message', { message: text });
-  //   }
-  // };
+  const createMessage = (msg, nickname) => {
+    const message = document.createElement('p');
+    message.setAttribute('class', 'message');
+    message.innerHTML = msg;
+    messagesArea.appendChild(message);
+    const sender = document.createElement('span');
+    sender.innerHTML = nickname;
+    message.appendChild(sender);
+  };
+
+  sendButton.onclick = () => {
+    const text = textarea.value;
+    createMessage(text, 'You');
+    socket.emit('message', text);
+  };
+  socket.on('incoming message', ({ msg, sender }) => {
+    console.log(msg, sender, '!!!');
+    createMessage(msg, sender);
+  });
+};

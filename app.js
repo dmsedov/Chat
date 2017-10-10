@@ -112,7 +112,10 @@ export default (port) => {
     socket.on('stop typing', () => {
       socket.broadcast.emit('stop typing', currentOnlineUser);
     });
-
+    socket.on('message', (msg) => {
+      const sender = currentOnlineUser.nickname;
+      socket.broadcast.emit('incoming message', { msg, sender });
+    });
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
