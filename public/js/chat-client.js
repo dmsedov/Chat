@@ -48,17 +48,21 @@ window.onload = () => {
     const listItem = document.createElement('li');
     listItem.innerHTML = user.nickname;
     listOfUsers.appendChild(listItem);
-    setTimeout(() => report.remove(), 5000);
+    // setTimeout(() => report.remove(), 5000);
   });
 
   const createMessage = (msg, nickname) => {
+    const blockOfMsg = document.createElement('div');
+    blockOfMsg.setAttribute('class', 'block-of-msg');
+    messagesArea.appendChild(blockOfMsg);
     const message = document.createElement('p');
+    blockOfMsg.appendChild(message);
     message.setAttribute('class', 'message');
     message.innerHTML = msg;
-    messagesArea.appendChild(message);
-    const sender = document.createElement('span');
+    const sender = document.createElement('p');
+    sender.setAttribute('class', 'sender');
     sender.innerHTML = nickname;
-    message.appendChild(sender);
+    blockOfMsg.appendChild(sender);
   };
 
   sendButton.onclick = () => {
@@ -67,7 +71,6 @@ window.onload = () => {
     socket.emit('message', text);
   };
   socket.on('incoming message', ({ msg, sender }) => {
-    console.log(msg, sender, '!!!');
     createMessage(msg, sender);
   });
 };
