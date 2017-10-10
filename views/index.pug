@@ -33,12 +33,12 @@ html
           form#form-sign-out
             button#btn-sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
         #content
-        #info-status
-          h3 Online users
-          ul#online-users
-            if (foreignUsers.length >= 1)
-              each user in foreignUsers
-                li=user.nickname
+          #info-status
+            h3 Online users
+            ul#online-users
+              if (foreignUsers.length >= 1)
+                each user in foreignUsers
+                  li=user.nickname
         #controls
           #info-of-activity
           textarea#message-field(placeholder='Type message')
