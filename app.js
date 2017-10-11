@@ -116,8 +116,11 @@ export default (port) => {
       const sender = currentOnlineUser.nickname;
       socket.broadcast.emit('incoming message', { msg, sender });
     });
+
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      const offUser = onlineUsers.find(user => user.socketId === socket.id);
+      socket.broadcast.emit('delete offline user', offUser);
+      console.log(`${offUser.nickname} user disconnected`);
     });
   });
 };

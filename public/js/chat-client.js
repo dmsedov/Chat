@@ -31,14 +31,16 @@ window.onload = () => {
       blockOfTyping.appendChild(typingMsg);
     }
   });
+
   socket.on('stop typing', (user) => {
     const msg = document.getElementById(`${user.socketId}`);
-    // setTimeout(() => {
-    //   if (msg) {
-    //     msg.remove();
-    //   }
-    // }, 800);
+    setTimeout(() => {
+      if (msg) {
+        msg.remove();
+      }
+    }, 800);
   });
+
 
   socket.on('user connected', (user) => {
     const report = document.createElement('p');
@@ -48,7 +50,7 @@ window.onload = () => {
     const listItem = document.createElement('li');
     listItem.innerHTML = user.nickname;
     listOfUsers.appendChild(listItem);
-    // setTimeout(() => report.remove(), 5000);
+    setTimeout(() => report.remove(), 5000);
   });
 
   const createMessage = (msg, nickname) => {
@@ -69,8 +71,22 @@ window.onload = () => {
     const text = textarea.value;
     createMessage(text, 'You');
     socket.emit('message', text);
+    textarea.value = '';
   };
+
   socket.on('incoming message', ({ msg, sender }) => {
     createMessage(msg, sender);
+  });
+
+  socket.on('delete offline user', (offUser) => {
+    const report = document.createElement('p');
+    report.setAttribute('class', 'user');
+    report.innerHTML = `${offUser.nickname} disconnected`;
+    messagesArea.appendChild(report);
+    setTimeout(() => report.remove(), 5000);
+    const liUser = listOfUsers.getElementsByTagName('li');
+    const users = Array.prototype.slice.call(liUser);
+    const offlineUser = users.find(user => user.innerHTML === offUser.nickname);
+    offlineUser.remove();
   });
 };
