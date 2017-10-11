@@ -109,7 +109,7 @@ body {
 	display: flex;
   justify-content: center;
 }
-.user {
+#user {
 	margin-right: 20px;
   width: 120px;
   height: 30px;
@@ -155,7 +155,7 @@ body {
 	font-size: 18px;
 	background-color: #B9E4EF;
 }
-.new-User {
+.user {
 	display: inline-block;
 	margin: 5px;
   padding: 5px;
@@ -182,7 +182,7 @@ body {
 #info-status {
 	position: absolute;
 	left: 102%;
-	top: 10%;
+	top: 0;
   width: 180px;
   min-height: 150px;
 	border-radius: 10px;

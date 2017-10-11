@@ -29,7 +29,7 @@ html
     else
       #main
         #log-out
-          .user=currentUser.nickname
+          #user=currentUser.nickname
           form#form-sign-out
             button#btn-sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
         #content
