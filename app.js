@@ -40,7 +40,13 @@ export default (port) => {
       onlineUsers.push(identUser);
       app.locals.foreignUsers = onlineUsers.filter(user => user.nickname !== req.session.nickname);
       app.locals.onlineUsers = onlineUsers;
-      app.locals.messages = messages;
+      app.locals.messages = messages.map((msg) => {
+        if (msg.owner === req.session.nickname) {
+          msg.owner = 'You';
+          return msg;
+        }
+        return msg;
+      });
     } else {
       app.locals.currentUser = new Guest();
     }
@@ -102,18 +108,18 @@ export default (port) => {
 
   const io = socketIO.listen(app.listen(port));
   io.on('connection', (socket) => {
-    console.log('connected successfully');
     const id = app.locals.currentUser.addSocketId(socket.id);
     const currentOnlineUser = app.locals.onlineUsers.find(user => user.socketId === id);
     socket.broadcast.emit('user connected', currentOnlineUser);
-    console.log(currentOnlineUser, 'current user');
     socket.on('start typing', (data) => {
       const report = currentOnlineUser.nickname + data.message;
       socket.broadcast.emit('typing message', { report, currentOnlineUser });
     });
+
     socket.on('stop typing', () => {
       socket.broadcast.emit('stop typing', currentOnlineUser);
     });
+
     socket.on('message', (msg) => {
       const sender = currentOnlineUser.nickname;
       const newMessage = new Message(sender, msg);
@@ -124,7 +130,6 @@ export default (port) => {
     socket.on('disconnect', () => {
       const offUser = onlineUsers.find(user => user.socketId === socket.id);
       socket.broadcast.emit('delete offline user', offUser);
-      console.log(`${offUser.nickname} user disconnected`);
     });
   });
 };
