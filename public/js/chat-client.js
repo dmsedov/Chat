@@ -7,13 +7,6 @@ window.onload = () => {
   const blockOfTyping = document.getElementById('info-of-activity');
 
 
-  socket.on('greeting message', (data) => {
-    const greetingMessage = document.createElement('p');
-    greetingMessage.setAttribute('class', 'greeting-message');
-    greetingMessage.innerHTML = data.message;
-    messagesArea.appendChild(greetingMessage);
-  });
-
   textarea.onkeypress = () => {
     socket.emit('start typing', { message: ' is typing...' });
   };

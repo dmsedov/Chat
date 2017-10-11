@@ -33,6 +33,12 @@ html
           form#form-sign-out
             button#btn-sign-out(formaction=`${url('session')}?_method=DELETE` formmethod='post') Sign out
         #content
+          p.greeting-message Welcome to chat!
+          if (messages.length > 0)
+            for message in messages
+              .block-of-msg
+                p.message=message.content
+                p.sender=message.owner
           #info-status
             h3 Online users
             ul#online-users

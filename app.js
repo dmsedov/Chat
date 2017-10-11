@@ -10,6 +10,7 @@ import encrypt from './src/encrypt';
 import User from './entities/User';
 import Guest from './entities/Guest';
 import NotFoundError from './entities/NotFoundPage';
+import Message from './entities/Message';
 
 export default (port) => {
   const app = Express();
@@ -29,6 +30,7 @@ export default (port) => {
   const pathToStatic = path.join(__dirname, 'public');
   const users = [new User('Admin1', encrypt('blabla'))];
   const onlineUsers = [];
+  const messages = [];
 
   app.use('/assets', Express.static(pathToStatic));
   app.use((req, res, next) => {
@@ -38,6 +40,7 @@ export default (port) => {
       onlineUsers.push(identUser);
       app.locals.foreignUsers = onlineUsers.filter(user => user.nickname !== req.session.nickname);
       app.locals.onlineUsers = onlineUsers;
+      app.locals.messages = messages;
     } else {
       app.locals.currentUser = new Guest();
     }
@@ -102,7 +105,6 @@ export default (port) => {
     console.log('connected successfully');
     const id = app.locals.currentUser.addSocketId(socket.id);
     const currentOnlineUser = app.locals.onlineUsers.find(user => user.socketId === id);
-    socket.emit('greeting message', { message: 'Welcome to chat!' });
     socket.broadcast.emit('user connected', currentOnlineUser);
     console.log(currentOnlineUser, 'current user');
     socket.on('start typing', (data) => {
@@ -114,6 +116,8 @@ export default (port) => {
     });
     socket.on('message', (msg) => {
       const sender = currentOnlineUser.nickname;
+      const newMessage = new Message(sender, msg);
+      messages.push(newMessage);
       socket.broadcast.emit('incoming message', { msg, sender });
     });
 
